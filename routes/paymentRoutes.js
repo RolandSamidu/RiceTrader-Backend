@@ -8,7 +8,7 @@ const router = express.Router();
 // Initiate Payment
 router.post('/pay', authMiddleware, async (req, res) => {
     try {
-        const { bidId } = req.body;
+        const { bidId, transactionId, paymentMethod } = req.body;
         const bid = await Bid.findById(bidId);
         if (!bid) return res.status(404).json({ message: "Bid not found" });
 
@@ -16,7 +16,9 @@ router.post('/pay', authMiddleware, async (req, res) => {
             bid: bidId,
             payer: req.user.userId,
             amount: bid.amount,
-            status: 'Completed'
+            status: 'Completed',
+            transactionId,
+            paymentMethod
         });
 
         await payment.save();
