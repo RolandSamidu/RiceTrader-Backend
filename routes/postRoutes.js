@@ -7,7 +7,19 @@ const router = express.Router();
 // Create Post
 router.post('/create', authMiddleware, async (req, res) => {
     try {
-        const newPost = new Post({ ...req.body, user: req.user.userId });
+        const { breed, expectedPrice, kilogram, location, description, image } = req.body;
+
+        const newPost = new Post({
+            breed,
+            expectedPrice,
+            kilogram,
+            location,
+            description,
+            image,
+            user: req.user.userId,
+            userRole: req.user.role  // Store user role
+        });
+
         await newPost.save();
         res.status(201).json({ message: "Post created successfully", post: newPost });
     } catch (error) {
