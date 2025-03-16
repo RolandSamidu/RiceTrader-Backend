@@ -39,4 +39,24 @@ router.get('/', authMiddleware, async (req, res) => {
     }
 });
 
+router.put('/update/:paymentId', authMiddleware, async (req, res) => {
+    try {
+        const payment = await Payment.findById(req.params.paymentId);
+        if (!payment) return res.status(404).json({ message: "Payment not found" });
+
+        if (payment.payer.toString() !== req.user.userId) {
+            return res.status(403).json({ message: "Unauthorized to update this payment" });
+        }
+
+        Object.assign(payment, req.body);
+        await payment.save();
+        
+        res.json({ message: "Payment updated successfully", payment });
+
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
 module.exports = router;
