@@ -86,4 +86,17 @@ router.delete('/delete/:postId', authMiddleware, async (req, res) => {
 });
 
 
+router.get("/byUser/:userId", async (req, res) => {
+  try {
+    const posts = await Post.find({ user: req.params.userId }).populate(
+      "user",
+      "firstName lastName role"
+    );
+    res.json(posts);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
 module.exports = router;
