@@ -8,6 +8,7 @@ const authRoutes = require('./routes/authRoutes');
 const postRoutes = require('./routes/postRoutes');
 const bidRoutes = require('./routes/bidRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
+const notifyRoutes = require('./routes/notifyRoutes');
 
 dotenv.config();
 connectDB();
@@ -23,6 +24,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/bids', bidRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use('/api/notify', notifyRoutes);
 
 // Server listen
 const PORT = process.env.PORT || 5000;
