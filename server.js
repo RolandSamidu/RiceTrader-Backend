@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./config/db');
+const path = require('path');
 
 // Import routes
 const authRoutes = require('./routes/authRoutes');
@@ -28,6 +29,7 @@ app.use('/api/payments', paymentRoutes);
 app.use('/api/notify', notifyRoutes);
 app.use('/api/profile', userRoutes);
 app.use('/uploads', express.static('uploads'));
+app.use('/uploads/posts', express.static(path.join(__dirname, 'uploads/posts')));
 
 // Server listen
 const PORT = process.env.PORT || 5000;

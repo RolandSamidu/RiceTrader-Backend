@@ -29,7 +29,7 @@ const upload = multer({
 });
 
 // Get Logged-in User Profile
-router.get('/profile', authMiddleware, async (req, res) => {
+router.get('/', authMiddleware, async (req, res) => {
     try {
         const user = await User.findById(req.user.userId).select('-password');
         if (!user) return res.status(404).json({ error: "User not found" });
@@ -40,7 +40,7 @@ router.get('/profile', authMiddleware, async (req, res) => {
 });
 
 // Update Profile (Without Image)
-router.put('/profile', authMiddleware, async (req, res) => {
+router.put('/', authMiddleware, async (req, res) => {
     try {
         const updates = req.body;
         const user = await User.findByIdAndUpdate(
@@ -57,7 +57,7 @@ router.put('/profile', authMiddleware, async (req, res) => {
 });
 
 // Update Profile Image
-router.put('/profile/image', authMiddleware, upload.single('profilePicture'), async (req, res) => {
+router.put('/image', authMiddleware, upload.single('profilePicture'), async (req, res) => {
     try {
         console.log("Request User:", req.user);
 
