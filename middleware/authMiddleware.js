@@ -16,13 +16,14 @@ const User = require('../models/User');
 
 const authMiddleware = async (req, res, next) => {
     try {
-        const token = req.headers.authorization?.split(" ")[1]; // Extract JWT
+        // const token = req.headers.authorization?.split(" ")[1]; // Extract JWT
+        const token = req.header('Authorization');
 
         if (!token) {
             return res.status(401).json({ error: "No token provided" });
         }
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET); // Verify token
+        const decoded = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET); // Verify token
         req.user = { userId: decoded.userId }; // Attach user ID
 
         next();
