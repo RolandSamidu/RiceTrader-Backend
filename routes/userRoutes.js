@@ -31,7 +31,7 @@ const upload = multer({
 // Get Logged-in User Profile
 router.get('/profile', authMiddleware, async (req, res) => {
     try {
-        const user = await User.findById(req.user.userId).select('-password'); // Exclude password
+        const user = await User.findById(req.user.userId).select('-password');
         if (!user) return res.status(404).json({ error: "User not found" });
         res.json(user);
     } catch (error) {
@@ -39,18 +39,37 @@ router.get('/profile', authMiddleware, async (req, res) => {
     }
 });
 
-// Update Logged-in User Profile
+// Update Profile (Without Image)
 router.put('/profile', authMiddleware, async (req, res) => {
     try {
-        const updates = req.body; // Get the updated fields from request
+        const updates = req.body;
         const user = await User.findByIdAndUpdate(
             req.user.userId,
             { $set: updates },
             { new: true, runValidators: true }
-        ).select('-password'); // Exclude password
+        ).select('-password');
 
         if (!user) return res.status(404).json({ error: "User not found" });
         res.json({ message: "Profile updated successfully", user });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Update Profile Image
+router.put('/profile/image', authMiddleware, upload.single('profileImage'), async (req, res) => {
+    try {
+        if (!req.file) return res.status(400).json({ error: "No image uploaded" });
+
+        const imagePath = `/uploads/${req.file.filename}`; // Save path in DB
+
+        const user = await User.findByIdAndUpdate(
+            req.user.userId,
+            { profileImage: imagePath },
+            { new: true }
+        ).select('-password');
+
+        res.json({ message: "Profile image updated", profileImage: imagePath, user });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
