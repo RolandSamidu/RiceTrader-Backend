@@ -9,6 +9,7 @@ const postRoutes = require('./routes/postRoutes');
 const bidRoutes = require('./routes/bidRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const notifyRoutes = require('./routes/notifyRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 dotenv.config();
 connectDB();
@@ -25,6 +26,7 @@ app.use('/api/posts', postRoutes);
 app.use('/api/bids', bidRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/notify', notifyRoutes);
+app.use('/api/profile', userRoutes);
 
 // Server listen
 const PORT = process.env.PORT || 5000;
