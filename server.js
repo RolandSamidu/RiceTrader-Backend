@@ -27,6 +27,7 @@ app.use('/api/bids', bidRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/notify', notifyRoutes);
 app.use('/api/profile', userRoutes);
+app.use('/uploads', express.static('uploads'));
 
 // Server listen
 const PORT = process.env.PORT || 5000;

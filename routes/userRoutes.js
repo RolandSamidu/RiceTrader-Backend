@@ -57,19 +57,21 @@ router.put('/profile', authMiddleware, async (req, res) => {
 });
 
 // Update Profile Image
-router.put('/profile/image', authMiddleware, upload.single('profileImage'), async (req, res) => {
+router.put('/profile/image', authMiddleware, upload.single('profilePicture'), async (req, res) => {
     try {
+        console.log("Request User:", req.user);
+
         if (!req.file) return res.status(400).json({ error: "No image uploaded" });
 
         const imagePath = `/uploads/${req.file.filename}`; // Save path in DB
 
         const user = await User.findByIdAndUpdate(
             req.user.userId,
-            { profileImage: imagePath },
+            { profilePicture: imagePath },
             { new: true }
         ).select('-password');
 
-        res.json({ message: "Profile image updated", profileImage: imagePath, user });
+        res.json({ message: "Profile image updated", profilePicture: imagePath, user });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
