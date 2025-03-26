@@ -10,7 +10,7 @@ const router = express.Router();
 // Create Post
 router.post('/create', authMiddleware, upload.single('image'), async (req, res) => {
     try {
-        const { breed, expectedPrice, kilogram, location, description } = req.body;
+        const { breed, expectedPrice, kilogram, location, description, telephone } = req.body;
         const imagePath = req.file ? `/uploads/posts/${req.file.filename}` : null;
 
         const userRole = req.user.role || "Farmer";
@@ -21,6 +21,7 @@ router.post('/create', authMiddleware, upload.single('image'), async (req, res) 
             kilogram,
             location,
             description,
+            telephone,
             image: imagePath,
             user: req.user.userId,
             userRole

@@ -7,6 +7,7 @@ const PostSchema = new mongoose.Schema({
     expectedPrice: { type: Number, required: true },
     kilogram: { type: Number, required: true },
     location: { type: String, required: true },
+    telephone: { type: String, required: true },
     description: { type: String },
     image: { type: String },
     status: { type: String, enum: ['Active', 'Sold', 'Deleted'], default: 'Active' }
