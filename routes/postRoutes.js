@@ -13,6 +13,8 @@ router.post('/create', authMiddleware, upload.single('image'), async (req, res) 
         const { breed, expectedPrice, kilogram, location, description } = req.body;
         const imagePath = req.file ? `/uploads/posts/${req.file.filename}` : null;
 
+        const userRole = req.user.role || "Intermediate";
+
         const newPost = new Post({
             breed,
             expectedPrice,
@@ -21,7 +23,7 @@ router.post('/create', authMiddleware, upload.single('image'), async (req, res) 
             description,
             image: imagePath,
             user: req.user.userId,
-            userRole: req.user.role  // Store user role
+            userRole
         });
 
         await newPost.save();
